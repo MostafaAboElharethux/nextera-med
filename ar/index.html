@@ -29,7 +29,7 @@
         </ul>
 
         <div class="lang-switch" aria-label="اختيار اللغة">
-          <a href="/" class="lang-switch__item" lang="en" hreflang="en">EN</a>
+          <a href="../" class="lang-switch__item" lang="en" hreflang="en">EN</a>
           <span class="lang-switch__item is-active" aria-current="true">AR</span>
         </div>
 
@@ -43,7 +43,7 @@
         </a>
       </div>
 
-      <div id="nav-mobile-menu" class="nav-mobile-menu" role="navigation" aria-label="قائمة الجوال">
+        <div id="nav-mobile-menu" class="nav-mobile-menu" role="navigation" aria-label="قائمة الجوال">
         <ul role="list">
           <li><a href="#work">الأعمال</a></li>
           <li><a href="#services">الخدمات</a></li>
@@ -51,7 +51,7 @@
           <li><a href="#contact" class="btn btn-primary">احجز استشارة مجانية</a></li>
         </ul>
         <div class="lang-switch lang-switch--mobile">
-          <a href="/" class="lang-switch__item" lang="en" hreflang="en">EN</a>
+          <a href="../" class="lang-switch__item" lang="en" hreflang="en">EN</a>
           <span class="lang-switch__item is-active" aria-current="true">AR</span>
         </div>
       </div>
@@ -83,12 +83,12 @@
               </div>
 
               <div class="hero-visual__chart">
-                <div class="hero-visual__bars">
-                  <span style="height: 32%"></span>
-                  <span style="height: 46%"></span>
-                  <span style="height: 58%"></span>
-                  <span style="height: 74%"></span>
-                  <span style="height: 88%"></span>
+                <div class="hero-visual__portrait">
+                  <img
+                    src="https://images.pexels.com/photos/5996692/pexels-photo-5996692.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                    alt="طبيب مصري احترافي"
+                  />
+                  <div class="hero-visual__portrait-badge">صورة أكثر إنسانية للبراند الطبي</div>
                 </div>
                 <div class="hero-visual__metrics">
                   <article>
@@ -468,9 +468,59 @@
       const modalSolution = document.getElementById('modal-solution');
       const modalOutcome = document.getElementById('modal-outcome');
 
+      function isSmallScreen() {
+        return window.matchMedia('(max-width: 768px)').matches;
+      }
+
+      function openNativeVideo(study) {
+        const nativePlayer = document.createElement('video');
+        nativePlayer.src = study.videoUrl;
+        nativePlayer.controls = true;
+        nativePlayer.autoplay = true;
+        nativePlayer.playsInline = true;
+        nativePlayer.preload = 'auto';
+        nativePlayer.style.position = 'fixed';
+        nativePlayer.style.inset = '0';
+        nativePlayer.style.width = '1px';
+        nativePlayer.style.height = '1px';
+        nativePlayer.style.opacity = '0';
+        nativePlayer.style.pointerEvents = 'none';
+        document.body.appendChild(nativePlayer);
+
+        const cleanup = () => {
+          nativePlayer.pause();
+          nativePlayer.removeAttribute('src');
+          nativePlayer.load();
+          nativePlayer.remove();
+        };
+
+        nativePlayer.addEventListener('ended', cleanup, { once: true });
+        nativePlayer.addEventListener('pause', () => {
+          if (document.fullscreenElement == null) {
+            cleanup();
+          }
+        }, { once: true });
+
+        nativePlayer.play().then(() => {
+          if (nativePlayer.requestFullscreen) {
+            nativePlayer.requestFullscreen().catch(() => {});
+          } else if (nativePlayer.webkitEnterFullscreen) {
+            nativePlayer.webkitEnterFullscreen();
+          }
+        }).catch(() => {
+          window.open(study.videoUrl, '_blank', 'noopener');
+          cleanup();
+        });
+      }
+
       function openModal(study) {
+        if (isSmallScreen()) {
+          openNativeVideo(study);
+          return;
+        }
+
         modalFrame.innerHTML = `
-          <video controls autoplay muted playsinline>
+          <video controls autoplay playsinline>
             <source src="${study.videoUrl}" type="video/mp4" />
           </video>
         `;

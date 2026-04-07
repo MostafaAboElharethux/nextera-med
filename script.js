@@ -411,9 +411,66 @@ function renderCaseStudies() {
 }
 
 /* ── Modal ───────────────────────────────────────────────────────────── */
+function isSmallScreen() {
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+
+function openNativeVideo(study) {
+  const nativePlayer = document.createElement("video");
+  nativePlayer.src = study.videoUrl;
+  nativePlayer.controls = true;
+  nativePlayer.autoplay = true;
+  nativePlayer.playsInline = true;
+  nativePlayer.preload = "auto";
+  nativePlayer.style.position = "fixed";
+  nativePlayer.style.inset = "0";
+  nativePlayer.style.width = "1px";
+  nativePlayer.style.height = "1px";
+  nativePlayer.style.opacity = "0";
+  nativePlayer.style.pointerEvents = "none";
+  document.body.appendChild(nativePlayer);
+
+  const cleanup = () => {
+    nativePlayer.pause();
+    nativePlayer.removeAttribute("src");
+    nativePlayer.load();
+    nativePlayer.remove();
+  };
+
+  nativePlayer.addEventListener("ended", cleanup, { once: true });
+  nativePlayer.addEventListener(
+    "pause",
+    () => {
+      if (document.fullscreenElement == null) {
+        cleanup();
+      }
+    },
+    { once: true }
+  );
+
+  nativePlayer
+    .play()
+    .then(() => {
+      if (nativePlayer.requestFullscreen) {
+        nativePlayer.requestFullscreen().catch(() => {});
+      } else if (nativePlayer.webkitEnterFullscreen) {
+        nativePlayer.webkitEnterFullscreen();
+      }
+    })
+    .catch(() => {
+      window.open(study.videoUrl, "_blank", "noopener");
+      cleanup();
+    });
+}
+
 function openModal(study) {
+  if (isSmallScreen()) {
+    openNativeVideo(study);
+    return;
+  }
+
   modalFrame.innerHTML = `
-    <video controls autoplay muted playsinline>
+    <video controls autoplay playsinline>
       <source src="${study.videoUrl}" type="video/mp4" />
     </video>
   `;
