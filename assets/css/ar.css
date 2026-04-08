@@ -280,13 +280,14 @@ img, video, iframe { display: block; max-width: 100%; }
   top: 0;
   left: 0;
   bottom: 0;
-  width: min(88vw, 360px);
+  width: min(92vw, 390px);
+  min-height: 100dvh;
   background:
-    linear-gradient(180deg, rgba(10, 10, 13, 0.995) 0%, rgba(7, 7, 9, 1) 100%);
+    linear-gradient(180deg, rgba(14, 14, 18, 0.995) 0%, rgba(8, 8, 11, 1) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: calc(var(--z-nav) + 1);
-  padding: 6rem 1.25rem 2rem;
+  padding: calc(env(safe-area-inset-top, 0px) + 6rem) 1.25rem 2rem;
   text-align: right;
   opacity: 0;
   visibility: hidden;
@@ -295,7 +296,10 @@ img, video, iframe { display: block; max-width: 100%; }
   transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s var(--ease);
   overflow-y: auto;
   overscroll-behavior: contain;
-  box-shadow: 28px 0 80px rgba(0, 0, 0, 0.42);
+  border-right: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    28px 0 80px rgba(0, 0, 0, 0.42),
+    0 0 0 100vmax rgba(0, 0, 0, 0.54);
 }
 
 .nav-mobile-menu.is-open {
