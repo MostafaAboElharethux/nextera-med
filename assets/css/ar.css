@@ -276,28 +276,32 @@ img, video, iframe { display: block; max-width: 100%; }
 
 /* ── Mobile menu ──────────────────────────────────────────── */
 .nav-mobile-menu {
-  display: none;
   position: fixed;
-  inset: 72px 0 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(88vw, 360px);
   background:
     linear-gradient(180deg, rgba(10, 10, 13, 0.995) 0%, rgba(7, 7, 9, 1) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: calc(var(--z-nav) + 1);
-  padding: 1.4rem var(--container-pad) 2rem;
+  padding: 6rem 1.25rem 2rem;
   text-align: right;
   opacity: 0;
-  transform: translateY(-10px);
+  visibility: hidden;
+  transform: translateX(-104%);
   pointer-events: none;
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s var(--ease);
   overflow-y: auto;
   overscroll-behavior: contain;
+  box-shadow: 28px 0 80px rgba(0, 0, 0, 0.42);
 }
 
 .nav-mobile-menu.is-open {
-  display: block;
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+  transform: translateX(0);
   pointer-events: auto;
 }
 
@@ -1127,10 +1131,6 @@ img, video, iframe { display: block; max-width: 100%; }
 
   .nav-inner {
     height: 76px;
-  }
-
-  .nav-mobile-menu {
-    inset: 76px 0 0;
   }
 
   .nav-links { display: none; }
