@@ -229,6 +229,7 @@ img, video, iframe { display: block; max-width: 100%; }
   letter-spacing: 0.08em;
   color: var(--text-secondary);
   text-decoration: none;
+  text-align: center;
   transition:
     background 0.2s var(--ease),
     color 0.2s var(--ease),
@@ -260,6 +261,7 @@ img, video, iframe { display: block; max-width: 100%; }
   flex: 1;
   min-width: 0;
   height: 42px;
+  padding-inline: 0;
   font-size: 13px;
   letter-spacing: 0.04em;
 }

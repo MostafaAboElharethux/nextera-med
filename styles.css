@@ -271,6 +271,7 @@
   letter-spacing: 0.14em;
   color: var(--text-secondary);
   text-decoration: none;
+  text-align: center;
   cursor: pointer;
   transition:
     background 0.2s var(--ease),
@@ -303,6 +304,7 @@
   flex: 1;
   min-width: 0;
   height: 42px;
+  padding-inline: 0;
   font-size: 0.82rem;
   letter-spacing: 0.16em;
 }
