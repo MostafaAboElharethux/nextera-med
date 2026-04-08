@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     hamburger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.contains('is-open');
       mobileMenu.classList.toggle('is-open');
+      nav?.classList.toggle('is-menu-open', !isOpen);
       hamburger.setAttribute('aria-expanded', String(!isOpen));
       hamburger.classList.toggle('is-active');
       document.body.style.overflow = isOpen ? '' : 'hidden';
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileLinks.forEach(link => {
       link.addEventListener('click', () => {
         mobileMenu.classList.remove('is-open');
+        nav?.classList.remove('is-menu-open');
         hamburger.classList.remove('is-active');
         hamburger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => {
       if (nav && !nav.contains(e.target)) {
         mobileMenu.classList.remove('is-open');
+        nav.classList.remove('is-menu-open');
         hamburger.classList.remove('is-active');
         hamburger.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
